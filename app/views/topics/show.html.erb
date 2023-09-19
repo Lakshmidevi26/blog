@@ -3,8 +3,12 @@
 <%= render @topic %>
 
 <div>
-  <%= link_to "Edit this topic", edit_topic_path(@topic) %> |
-  <%= link_to "Back to topics", topics_path %>
-
-  <%= button_to "Destroy this topic", @topic, method: :delete %>
+  <%= link_to "Edit this topic", edit_topic_path(@topic) %> <br>
+  <%= link_to "Back to topics", topics_path %><br>
+  <!--
+  <% #link_to "Posts under this topic", topic_post_path(@topic,@topic.posts.first)
+  %><br>
+  -->
+  <%= link_to "Posts under this topic", topic_posts_path(topic_id:@topic) %><br>
+  <%= button_to "Destroy this topic", @topic, method: :delete ,class: "btn btn-outline-primary"%>
 </div>

@@ -1,7 +1,9 @@
 <div id="<%= dom_id topic %>">
   <p>
     <strong>Title:</strong>
-    <%= topic.title %>
+    <%= link_to topic.title, topic_posts_path(topic_id:topic) %><br>
+    <strong>Title ID:</strong>
+    <%= topic.id %>
   </p>
 
 </div>

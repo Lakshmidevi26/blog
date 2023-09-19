@@ -1,0 +1,15 @@
+<center>
+<%= form_with(model: @post) do |form| %>
+  <%= form.label "Enter title" %>
+  <%= form.text_field :title %>
+ <br>
+  <%= form.label "Enter description" %>
+  <%= form.text_field :description %>
+  <br>
+  <%= form.label "Enter topic ID" %>
+  <%= form.number_field :topic_id %>
+  <br>
+  <%= form.submit %>
+
+<% end %>
+</center>

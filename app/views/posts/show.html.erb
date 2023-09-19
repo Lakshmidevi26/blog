@@ -1,0 +1,11 @@
+<center>
+Post id:<%= @post.id %><br>
+Title:<%= @post.title %><br>
+Description:<%= @post.description %><br>
+Topic ID:<%= @post.topic_id %><br>
+
+<%= link_to "edit " ,edit_post_path(@post)%>
+<%= button_to "destroy ",@post,method: :delete %>
+<%= link_to "Back" ,:back%>
+</center>
+
