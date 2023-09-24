@@ -1,0 +1,8 @@
+<center>
+  <%= form_with model:[@topic,@post,@comment] do |form| %>
+  <%= form.label :text%>
+  <%= form.text_field :text%><br>
+
+  <%= form.submit %>
+  <% end %>
+</center>

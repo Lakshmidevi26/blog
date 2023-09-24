@@ -1,0 +1,25 @@
+<center><h3><u><i>Comments</i></u></h3>
+  <% if @comments.count>0 %>
+<table>
+  <tr>
+    <th>Text</th>
+    <th>Post_id</th>
+    <th>Edit</th>
+    <th>Destroy</th>
+  </tr>
+  <% @comments.each do |comment| %>
+  <tr>
+    <td><%= comment.text %></td>
+    <td><%= comment.post_id %></td>
+    <td><%= link_to "edit",edit_post_comments_path(comment.post.id,comment) %></td>
+    <td><%= button_to "delete",post_comment_path(comment.post_id,comment) ,method: :delete%></td>
+  </tr>
+   <% end %>
+</table>
+<% else %>
+    <h3>NO comments</h3>
+<% end %>
+<br><br>
+<%= link_to "Go to posts",posts_path%><br>
+<%= link_to "Back", :back %>
+</center>

@@ -1,11 +1,39 @@
 <center>
-Post id:<%= @post.id %><br>
+  <h3><u><i>Details of post <%= @post.id %></i></u></h3><br>
 Title:<%= @post.title %><br>
 Description:<%= @post.description %><br>
 Topic ID:<%= @post.topic_id %><br>
-
-<%= link_to "edit " ,edit_post_path(@post)%>
-<%= button_to "destroy ",@post,method: :delete %>
+Comments count:<%= @post.comments.count %><br><br>
+<% if (@post.comments.count) >0 %>
+    <h3><u><i>Listing comments</i></u></h3><br>
+    <table>
+      <tr>
+        <th>comments</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      <% @post.comments.each do |comment| %>
+      <tr>
+        <td><%= comment.text %></td>
+        <td><%= link_to "edit",edit_post_comment_path(comment.post_id,comment) %></td>
+        <td><%= button_to "delete",post_comment_path(comment.post_id,comment),method: :delete,class: "btn btn-outline-primary" %></td>
+      </tr>
+      <% end %>
+    </table>
+<% else %>
+      NO comments
+<% end %>
+<br>
+<% if @post.tags.count > 0 %>
+  <strong>Tags</strong>
+  <% @post.tags.each do |tag| %>
+    <%= tag.name%>
+  <% end %>
+<% end %>    
+<br><br>
+<%= link_to "edit  " ,edit_topic_post_path(@topic,@post)%>  |
+<%= link_to "Add comment  ",new_topic_post_comment_path(@topic,@post) %>  |
 <%= link_to "Back" ,:back%>
+<%= button_to "destroy ",topic_post_path(@topic,@post),method: :delete %>
 </center>
 

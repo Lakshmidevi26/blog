@@ -1,20 +1,27 @@
 <center>
-  <h3>Post list</h3>
-  <table border="2">
-  <tr>
-    <th>Title</th>
-    <th>View</th>
-  </tr>
-<% @posts.each do |post| %>
-
-    <tr><td> <%=post.title %></td>
-    <td><%= link_to "show" , post %></td>
+  <h3><u><i>Index page - posts </i></u></h3>
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Topic ID</th>
+      <th>Topic Name</th>
+      <th>View</th>
+      <th>Edit</th>
+      <th>delete</th>
     </tr>
-
-<% end %>
-</table>
-<%= link_to "New post", new_post_path,class: "btn btn-outline-primary" %>
-<br>
-<%= link_to "Topic", topics_path %>
-
+    <% @posts.each do |post| %>
+      <tr>
+        <td><%= post.title %></td>
+        <td><%= post.description %></td>
+        <td><%= post.topic_id %></td>
+        <td><%= post.topic.title %></td>
+        <td><%= link_to "show",topic_post_path(post.topic_id ,post) %></td>
+        <td><%= link_to "Edit",edit_topic_post_path(post.topic_id,post) %></td>
+        <td><%= button_to "delete",topic_post_path(post.topic_id,post),method: :delete %></td>
+      </tr>
+    <% end %>
+  </table>
+  <%= link_to "back", :back %>
+  <%= link_to "Topic", topics_path %>
 </center>

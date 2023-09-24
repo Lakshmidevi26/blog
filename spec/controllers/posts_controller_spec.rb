@@ -2,11 +2,12 @@ require 'rails_helper'
 
 RSpec.describe PostsController  do
   describe 'GET index' do
+    let(:topic) {Topic.new(id:5)}
     let(:post){create :post}
     let(:post2){create :post}
 
     before(:each) do
-      get :index
+     get :index
     end
 
     it "assigns @users" do
@@ -25,9 +26,9 @@ RSpec.describe PostsController  do
 
   describe "POST create" do
     #let(:post){create :post}
-
+    let!(:topic) {Topic.new(id:5)}
      it "should accepts the params with html format" do
-       post :create, params: { post:{ title: 'Hello', description: 'World', topic_id: 5 } }
+       post :create, params: { post:{ title: 'Hello', description: 'World' },"topic_id"=>"5"}
        #debugger
          expect(response.media_type).to eq('text/html')
          expect(response.content_type).to eq("text/html; charset=utf-8")

@@ -1,16 +1,27 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Topics</h1>
+<h1><u><i>Topics</i></u></h1>
 
 <div id="topics">
-  <% @topics.each do |topic| %>
-    <%= render topic %>
-    <p>
-      <%= link_to "Show this topic", topic %>
-    </p>
+  <% if @topics.count>0 %>
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>ID</th>
+        <th>View</th>
+      </tr>
+      <% @topics.each do |topic| %>
+      <tr>
+        <td><%= topic.title %></td>
+        <td><%= topic.id %></td>
+        <td><%= link_to "show", topic %></td>
+      </tr>
+      <% end %>
+    </table>
+   <% else %>
+  NO topic
   <% end %>
 </div>
-
+<br>
 <%= link_to "New topic", new_topic_path,class: "btn btn-outline-primary" %>
 <br>
-<%= link_to "Post", posts_path %>

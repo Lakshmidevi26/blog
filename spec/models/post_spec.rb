@@ -35,6 +35,7 @@ RSpec.describe Post, type: :model do
     let!(:topic1) {Topic.create(id: 10)}
     let!(:post4) {create :post,topic_id: 10}
     let!(:post5) {create :post,topic_id: 10}
+
     it "delete all the related posts " do
       expect(topic1.posts.count).to eq(2)
       topic1.destroy
