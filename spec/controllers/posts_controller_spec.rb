@@ -2,9 +2,8 @@ require 'rails_helper'
 
 RSpec.describe PostsController  do
   describe 'GET index' do
-    let(:topic) {Topic.new(id:5)}
-    let(:post){create :post}
-    let(:post2){create :post}
+    let!(:topic) {Topic.create(id:5)}
+    let(:post){create :post,topic_id: 5}
 
     before(:each) do
      get :index
@@ -26,7 +25,7 @@ RSpec.describe PostsController  do
 
   describe "POST create" do
     #let(:post){create :post}
-    let!(:topic) {Topic.new(id:5)}
+    let!(:topic) {Topic.create(id:5)}
      it "should accepts the params with html format" do
        post :create, params: { post:{ title: 'Hello', description: 'World' },"topic_id"=>"5"}
        #debugger
@@ -35,4 +34,5 @@ RSpec.describe PostsController  do
      end
 
   end
+
 end

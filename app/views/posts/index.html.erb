@@ -22,6 +22,9 @@
       </tr>
     <% end %>
   </table>
+  <br>
+  <div style="width: 15em"><%= paginate @posts %></div>
+  <br>
   <%= link_to "back", :back %>
   <%= link_to "Topic", topics_path %>
 </center>

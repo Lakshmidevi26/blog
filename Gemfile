@@ -76,3 +76,5 @@ end
 gem 'faker'
 
 gem 'strong_migrations'
+
+gem "kaminari"

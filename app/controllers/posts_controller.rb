@@ -4,9 +4,9 @@ class PostsController < ApplicationController
   def index
     #@posts=@topic.Post.all
     if params[:topic_id].nil?
-      @posts=Post.all
+      @posts=Post.all.page(params[:page])
     else
-      @posts=@topic.posts.all
+      @posts=@topic.posts.all.page(params[:page])
     end
   end
 

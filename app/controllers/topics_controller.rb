@@ -3,7 +3,7 @@ class TopicsController < ApplicationController
 
   # GET /topics or /topics.json
   def index
-    @topics = Topic.all
+    @topics = Topic.all.page params[:page]
   end
 
   # GET /topics/1 or /topics/1.json

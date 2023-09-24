@@ -31,10 +31,9 @@ RSpec.describe Post, type: :model do
     end
   end
   context  "When delete a topic" do
-
-    let!(:topic1) {Topic.create(id: 10)}
-    let!(:post4) {create :post,topic_id: 10}
-    let!(:post5) {create :post,topic_id: 10}
+    let!(:topic1) {Topic.create(id: 11)}
+    let!(:post4) {create :post,topic_id: 11}
+    let!(:post5) {create :post,topic_id: 11}
 
     it "delete all the related posts " do
       expect(topic1.posts.count).to eq(2)
@@ -43,4 +42,6 @@ RSpec.describe Post, type: :model do
 
     end
   end
+
+
 end
