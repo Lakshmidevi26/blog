@@ -15,15 +15,18 @@ class PostsController < ApplicationController
   end
   def update
     create_or_delete_posts_tags(@post,params[:post][:tags])
-
+    unless params[:post][:star].nil?
+    add_rating(@post,params[:post][:star])
+    end
     if @post.update(post_params.except(:tags))
-      redirect_to '/topics'
+      topic=Topic.find(@post.topic_id)
+      redirect_to topic_post_path(topic.id,@post)
     else
       render :edit
     end
   end
   def create
-    post = @topic.posts.new(post_params.except(:tags))
+    post = @topic.posts.new(post_params.except(:tags,:star))
     post.save
     create_or_delete_posts_tags(post,params[:post][:tags])
 
@@ -65,6 +68,16 @@ class PostsController < ApplicationController
     end
   end  
 
+
+  def add_rating(post,value)
+    if Rating.find_by(post_id: post.id)
+      rating=Rating.find_by(post_id: post.id)
+      rating.update(star: value)
+    else
+      Rating.create(post_id: post.id,star: value)
+    end
+  end
+
   def set_post
     @post=Post.find(params[:id])
   end
@@ -76,6 +89,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title,:description,:topic_id,tags_attributes:[:name,:id])
+    params.require(:post).permit(:title,:description,:topic_id,tags_attributes:[:name,:id],ratings_attributes:[:post_id,:star])
   end
 end

@@ -25,12 +25,24 @@ Comments count:<%= @post.comments.count %><br><br>
 <% end %>
 <br>
 <% if @post.tags.count > 0 %>
-  <strong>Tags</strong>
+ <h4><strong>Tags</strong></h4>
   <% @post.tags.each do |tag| %>
     <%= tag.name%>
   <% end %>
 <% end %>    
 <br><br>
+  <% if Rating.find_by(post_id: @post.id) %>
+   <strong>Rating :<%= @post.rating.star%>  star</strong>
+  <% end %>
+  <h4>Rating for post</h4>
+  <%= form_with model: @post,method: :patch do |f| %>
+  <%= f.radio_button :star,1,:checked=> Rating.find_by(post_id: @post.id) && @post.rating.star==1 ,:onclick => "this.parentNode.submit();" %> 1
+    <%= f.radio_button :star,2,:checked=> Rating.find_by(post_id: @post.id) && @post.rating.star==2 ,:onclick => "this.parentNode.submit();"%> 2
+    <%= f.radio_button :star,3 ,:checked=> Rating.find_by(post_id: @post.id) && @post.rating.star==3,:onclick => "this.parentNode.submit();"%> 3
+    <%= f.radio_button :star,4,:checked=> Rating.find_by(post_id: @post.id) && @post.rating.star==4,:onclick => "this.parentNode.submit();" %> 4
+    <%= f.radio_button :star,5 ,:checked=> Rating.find_by(post_id: @post.id) && @post.rating.star==5 ,:onclick => "this.parentNode.submit();"%> 5 <br>
+  <% end %>
+
 <%= link_to "edit  " ,edit_topic_post_path(@topic,@post)%>  |
 <%= link_to "Add comment  ",new_topic_post_comment_path(@topic,@post) %>  |
 <%= link_to "Back" ,:back%>
