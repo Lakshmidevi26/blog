@@ -14,11 +14,15 @@ class PostsController < ApplicationController
     @post=@topic.posts.build
   end
   def update
-    create_or_delete_posts_tags(@post,params[:post][:tags])
+    create_posts_tags(@post,params[:post][:tags])
+
     unless params[:post][:star].nil?
     add_rating(@post,params[:post][:star])
     end
-    if @post.update(post_params.except(:tags))
+
+   # @post.image.attach(params[:image])
+
+    if @post.update(post_params)
       topic=Topic.find(@post.topic_id)
       redirect_to topic_post_path(topic.id,@post)
     else
@@ -26,10 +30,10 @@ class PostsController < ApplicationController
     end
   end
   def create
-    post = @topic.posts.new(post_params.except(:tags,:star))
+    post = @topic.posts.new(post_params)
     post.save
-    create_or_delete_posts_tags(post,params[:post][:tags])
-
+    create_posts_tags(post,params[:post][:tags])
+   #post.image.attach(params[:image])
     if post.save
       redirect_to '/topics'
     else
@@ -45,17 +49,10 @@ class PostsController < ApplicationController
     end
   end
 
-  def show_on_topic_id
-    if params[:topic_id].nil?
-    @posts=Post.all
-    else
-    @posts=Post.where(topic_id: params[:topic_id])
-    end
-  end
 
   private
 
-  def create_or_delete_posts_tags(post,tags)
+  def create_posts_tags(post,tags)
     #tags=tags.strip.split(',')
     unless tags.nil?
     tags.each do |tag|
@@ -70,12 +67,9 @@ class PostsController < ApplicationController
 
 
   def add_rating(post,value)
-    if Rating.find_by(post_id: post.id)
-      rating=Rating.find_by(post_id: post.id)
-      rating.update(star: value)
-    else
+    
       Rating.create(post_id: post.id,star: value)
-    end
+
   end
 
   def set_post
@@ -89,6 +83,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title,:description,:topic_id,tags_attributes:[:name,:id],ratings_attributes:[:post_id,:star])
+    params.require(:post).permit(:title,:description,:image,:topic_id,tags_attributes:[:name,:id],ratings_attributes:[:post_id,:star])
   end
 end

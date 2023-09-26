@@ -3,6 +3,13 @@
 Title:<%= @post.title %><br>
 Description:<%= @post.description %><br>
 Topic ID:<%= @post.topic_id %><br>
+
+  <div>
+     <% if @post.image.attached? %>
+    <%= image_tag(@post.image,style:"width: 200px;") %>
+      <% end %>
+  </div>
+
 Comments count:<%= @post.comments.count %><br><br>
 <% if (@post.comments.count) >0 %>
     <h3><u><i>Listing comments</i></u></h3><br>
@@ -32,15 +39,26 @@ Comments count:<%= @post.comments.count %><br><br>
 <% end %>    
 <br><br>
   <% if Rating.find_by(post_id: @post.id) %>
-   <strong>Rating :<%= @post.rating.star%>  star</strong>
+   <strong>Rating :</strong>
+   <% arr = Rating.where(post_id:@post.id).group(:star).count%>
+  <% for a in 1..5 do %>
+  <% if arr[a].nil?%>
+  <% arr[a]=0%>
+  <% end %>
+  <% end %>
+   5 star :<%= arr[5]%><br>
+   4 star :<%= arr[4]%><br>
+   3 star :<%= arr[3]%><br>
+   2 star :<%= arr[2]%><br>
+   1 star :<%= arr[1]%>
   <% end %>
   <h4>Rating for post</h4>
   <%= form_with model: @post,method: :patch do |f| %>
-  <%= f.radio_button :star,1,:checked=> Rating.find_by(post_id: @post.id) && @post.rating.star==1 ,:onclick => "this.parentNode.submit();" %> 1
-    <%= f.radio_button :star,2,:checked=> Rating.find_by(post_id: @post.id) && @post.rating.star==2 ,:onclick => "this.parentNode.submit();"%> 2
-    <%= f.radio_button :star,3 ,:checked=> Rating.find_by(post_id: @post.id) && @post.rating.star==3,:onclick => "this.parentNode.submit();"%> 3
-    <%= f.radio_button :star,4,:checked=> Rating.find_by(post_id: @post.id) && @post.rating.star==4,:onclick => "this.parentNode.submit();" %> 4
-    <%= f.radio_button :star,5 ,:checked=> Rating.find_by(post_id: @post.id) && @post.rating.star==5 ,:onclick => "this.parentNode.submit();"%> 5 <br>
+  <%= f.radio_button :star,1,:onclick => "this.parentNode.submit();" %> 1
+    <%= f.radio_button :star,2,:onclick => "this.parentNode.submit();"%> 2
+    <%= f.radio_button :star,3 ,:onclick => "this.parentNode.submit();"%> 3
+    <%= f.radio_button :star,4,:onclick => "this.parentNode.submit();" %> 4
+    <%= f.radio_button :star,5 ,:onclick => "this.parentNode.submit();"%> 5 <br>
   <% end %>
 
 <%= link_to "edit  " ,edit_topic_post_path(@topic,@post)%>  |
