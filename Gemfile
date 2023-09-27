@@ -75,7 +75,8 @@ group :test do
 end
 gem 'faker'
 
-gem 'strong_migrations'
+#gem 'strong_migrations'
 
 gem "kaminari"
 
+gem "devise"
