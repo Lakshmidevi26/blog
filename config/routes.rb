@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
-    sessions: 'user/sessions'
-  }
+  devise_for :users
   resources :tags
   get 'posts' ,to:"posts#index"
   resources :topics do

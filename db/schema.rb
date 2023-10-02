@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_27_002050) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_02_072727) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -44,6 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_27_002050) do
     t.integer "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
   end
 
   create_table "post_tags", force: :cascade do |t|
@@ -58,12 +59,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_27_002050) do
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.string "description"
-    t.integer "topic_id"
+    t.integer "topic_id", null: false
+    t.integer "user_id", null: false
   end
 
   create_table "ratings", force: :cascade do |t|
     t.integer "star"
-    t.integer "post_id", null: false
+    t.integer "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_ratings_on_post_id"

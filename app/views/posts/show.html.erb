@@ -16,14 +16,12 @@ Comments count:<%= @post.comments.count %><br><br>
     <table>
       <tr>
         <th>comments</th>
-        <th>Edit</th>
-        <th>Delete</th>
       </tr>
       <% @post.comments.each do |comment| %>
       <tr>
         <td><%= comment.text %></td>
-        <td><%= link_to "edit",edit_post_comment_path(comment.post_id,comment) %></td>
-        <td><%= button_to "delete",post_comment_path(comment.post_id,comment),method: :delete,class: "btn btn-outline-primary" %></td>
+      <% if can? :edit,comment%>  <td><%= link_to "edit",edit_post_comment_path(comment.post_id,comment) %></td>
+        <td><%= button_to "delete",post_comment_path(comment.post_id,comment),method: :delete,class: "btn btn-outline-primary" %></td> <% end %>
       </tr>
       <% end %>
     </table>
@@ -61,9 +59,9 @@ Comments count:<%= @post.comments.count %><br><br>
     <%= f.radio_button :star,5 ,:onclick => "this.parentNode.submit();"%> 5 <br>
   <% end %>
 
-<%= link_to "edit  " ,edit_topic_post_path(@topic,@post)%>  |
-<%= link_to "Add comment  ",new_topic_post_comment_path(@topic,@post) %>  |
+<% if can? :update, @post %><%= link_to "edit  " ,edit_topic_post_path(@post.topic_id,@post)%>  | <% end %>
+<%= link_to "Add comment  ",new_topic_post_comment_path(@post.topic_id,@post) %>  |
 <%= link_to "Back" ,:back%>
-<%= button_to "destroy ",topic_post_path(@topic,@post),method: :delete %>
+<%  if can? :destroy, @post%><%= button_to "destroy ",topic_post_path(@post.topic_id,@post),method: :delete %> <% end %>
 </center>
 

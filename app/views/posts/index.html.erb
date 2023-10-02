@@ -6,9 +6,10 @@
       <th>Description</th>
       <th>Topic ID</th>
       <th>Topic Name</th>
+      <th>User Id</th>
       <th>View</th>
-      <th>Edit</th>
-      <th>delete</th>
+      <%# <th>Edit</th>
+      <th>delete</th> %>
     </tr>
     <% @posts.each do |post| %>
       <tr>
@@ -16,9 +17,10 @@
         <td><%= post.description %></td>
         <td><%= post.topic_id %></td>
         <td><%= post.topic.title %></td>
+        <td><%= post.user.id%>
         <td><%= link_to "show",topic_post_path(post.topic_id ,post) %></td>
-        <td><%= link_to "Edit",edit_topic_post_path(post.topic_id,post) %></td>
-        <td><%= button_to "delete",topic_post_path(post.topic_id,post),method: :delete %></td>
+       <%# <td><%= link_to "Edit",edit_topic_post_path(post.topic_id,post) </td>
+        <td><%= button_to "delete",topic_post_path(post.topic_id,post),method: :delete </td> %>
       </tr>
     <% end %>
   </table>

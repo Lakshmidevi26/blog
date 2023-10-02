@@ -77,6 +77,8 @@ gem 'faker'
 
 #gem 'strong_migrations'
 
+gem "cancancan"
+
 gem "kaminari"
 
 gem "devise"

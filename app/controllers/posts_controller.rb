@@ -1,4 +1,7 @@
 class PostsController < ApplicationController
+
+  load_and_authorize_resource
+
   before_action :set_topic
   before_action :set_post,only:%i[show edit update destroy]
   def index
@@ -12,6 +15,7 @@ class PostsController < ApplicationController
 
   def new
     @post=@topic.posts.build
+    @tag=@post.tags.build
   end
   def update
     create_posts_tags(@post,params[:post][:tags])
@@ -29,8 +33,15 @@ class PostsController < ApplicationController
       render :edit
     end
   end
+
+  def edit
+    @tag=@post.tags.build
+  end  
+
+
   def create
     post = @topic.posts.new(post_params)
+    post.user_id = current_user.id
     post.save
     create_posts_tags(post,params[:post][:tags])
    #post.image.attach(params[:image])
@@ -42,6 +53,8 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @post.tags.clear
+    @post.ratings.clear
     if @post.delete
       redirect_to '/posts'
     else

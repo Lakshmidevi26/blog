@@ -1,5 +1,5 @@
 <center>
-  <%= form_with model:[@topic,@post,@comment] do |form| %>
+  <%= form_with model:[@topic,@post,Comment.new] do |form| %>
   <%= form.label :text%>
   <%= form.text_field :text%><br>
 
