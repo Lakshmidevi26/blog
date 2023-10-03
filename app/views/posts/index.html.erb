@@ -22,7 +22,7 @@
         <td><%= post.topic.title %></td>
         <td><%= post.user.id%>
         <td><%= link_to "show  ",topic_post_path(post.topic_id ,post) %></td>
-         <td><center><%=post.ratings.average(:star)%></center></td>
+        <td><center><%=post.ratings.average(:star)%></center></td>
         <td><%= post.comments.all.count %></td>
       <% if can? :edit,post%> <td><%= link_to "Edit",edit_topic_post_path(post.topic_id,post) %></td><% end %>
       <% if can? :destroy,post%>  <td><%= button_to "delete",topic_post_path(post.topic_id,post),method: :delete %> </td><% end %>
