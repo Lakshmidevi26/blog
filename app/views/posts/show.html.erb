@@ -44,19 +44,23 @@ Comments count:<%= @post.comments.count %><br><br>
   <% arr[a]=0%>
   <% end %>
   <% end %>
-   5 star :<%= arr[5]%><br>
-   4 star :<%= arr[4]%><br>
-   3 star :<%= arr[3]%><br>
-   2 star :<%= arr[2]%><br>
-   1 star :<%= arr[1]%>
+  <table><tr><th>5 star</th><th>4 star</th><th>3 star</th><th>2 star</th><th>1 star</th></tr><tr>
+  <td>  <%= arr[5]%></td>
+  <td><%= arr[4]%></td>
+  <td><%= arr[3]%></td>
+   <td><%= arr[2]%></td>
+   <td><%= arr[1]%></td></tr></table>
   <% end %>
+  <br>
   <h4>Rating for post</h4>
-  <%= form_with model: @post,method: :patch do |f| %>
-  <%= f.radio_button :star,1,:onclick => "this.parentNode.submit();" %> 1
-    <%= f.radio_button :star,2,:onclick => "this.parentNode.submit();"%> 2
-    <%= f.radio_button :star,3 ,:onclick => "this.parentNode.submit();"%> 3
-    <%= f.radio_button :star,4,:onclick => "this.parentNode.submit();" %> 4
-    <%= f.radio_button :star,5 ,:onclick => "this.parentNode.submit();"%> 5 <br>
+  
+  <%= form_with model:[@post,Rating.new],method: :post do |f| %>
+  <%= f.radio_button :star,1 %> 1
+    <%= f.radio_button :star,2%> 2
+    <%= f.radio_button :star,3 %> 3
+    <%= f.radio_button :star,4 %> 4
+    <%= f.radio_button :star,5 %> 5 <br>
+    <%= f.submit %>
   <% end %>
 
 <% if can? :update, @post %><%= link_to "edit  " ,edit_topic_post_path(@post.topic_id,@post)%>  | <% end %>

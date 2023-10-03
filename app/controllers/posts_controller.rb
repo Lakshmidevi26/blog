@@ -80,8 +80,11 @@ class PostsController < ApplicationController
 
 
   def add_rating(post,value)
-    
-      Rating.create(post_id: post.id,star: value)
+      if Rating.find_by(user_id: current_user.id)
+      Rating.find_by(user_id: current_user.id).update(star: value)
+      else  
+      Rating.create(post_id: post.id,star: value,user_id: current_user.id)
+      end
 
   end
 
