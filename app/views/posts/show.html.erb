@@ -69,3 +69,39 @@ Comments count:<%= @post.comments.count %><br><br>
 <%  if can? :destroy, @post%><%= button_to "destroy ",topic_post_path(@post.topic_id,@post),method: :delete %> <% end %>
 </center>
 
+<script>
+window.onload = function() {
+ $(document).ready(function() {
+    alert('jQuery is working fine!');
+  });
+} 
+</script>
+
+<script>
+window.onload = function() {
+$(document).ready(function(){
+  $.ajax({
+    url: "<%= topic_post_path %>/status/<%= current_user.id %>",
+    type: "PATCH",
+
+    success: function(response){
+      console.log("success");
+    },
+
+    error: function(error){
+      console.log("fail");
+    }
+
+  });
+}
+);
+}
+</script>
+
+<%# <script>
+ console.log("<%= current_user.id ")
+ console.log("<%= topic_post_path /read/<%= current_user.id")
+ var xhttp = new XMLHttpRequest();
+ xhttp.open("POST","<%= topic_post_path /read/<%= current_user.id");
+ xhttp.send();
+</script> %>

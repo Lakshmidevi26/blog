@@ -12,7 +12,7 @@ class Post < ApplicationRecord
   has_many :post_tags
   has_many :tags,through: :post_tags
 
-  has_and_belongs_to_many :users
+  has_and_belongs_to_many :users, join_table: "posts_users_read_status"
 
   has_many :ratings ,dependent: :destroy
 

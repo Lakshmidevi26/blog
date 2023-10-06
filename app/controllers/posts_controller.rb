@@ -1,9 +1,12 @@
 class PostsController < ApplicationController
-
+  respond_to :html, :json, :js
   load_and_authorize_resource
+  protect_from_forgery with: :null_session
 
   before_action :set_topic
   before_action :set_post,only:%i[show edit update destroy]
+
+  
   def index
     #@posts=@topic.Post.all
     if params[:topic_id].nil?
@@ -11,6 +14,7 @@ class PostsController < ApplicationController
     else
       @posts=@topic.posts.all.page(params[:page])
     end
+
   end
 
   def new
@@ -38,6 +42,10 @@ class PostsController < ApplicationController
     @tag=@post.tags.build
   end  
 
+ def show
+  @post=Post.find(params[:id])
+
+ end 
 
   def create
     post = @topic.posts.new(post_params)
@@ -45,10 +53,20 @@ class PostsController < ApplicationController
     post.save
     create_posts_tags(post,params[:post][:tags])
    #post.image.attach(params[:image])
-    if post.save
-      redirect_to '/topics'
-    else
-      render :new
+    # if post.save
+    #   redirect_to '/topics'
+    # else
+    #   render :new
+    # end
+
+    respond_to do |format|
+      if post.save
+        format.html { redirect_to '/topics', notice: "Post was successfully created." }
+        format.json { render :show, status: :created, location: @topic }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @topic.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -61,6 +79,27 @@ class PostsController < ApplicationController
       render :edit
     end
   end
+
+  def read
+    post = Post.find(params[:post_id])
+    if post.users.where(id: params[:user_id]).count==0
+      user = User.find(params[:user_id])
+      post.users << user
+    end  
+  end  
+
+  def status
+   
+      # @_current_user ||= session[:current_user_id] &&
+      #   User.find_by(id: session[:current_user_id])
+    #   user = User.find(id: session[:current_user_id])
+    #  puts session
+    post = Post.find(params[:post_id])
+    if post.users.where(id: params[:user_id]).count==0
+      user = User.find(params[:user_id])
+      post.users << user
+    end  
+  end  
 
 
   private

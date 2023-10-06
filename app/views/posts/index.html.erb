@@ -16,12 +16,16 @@
     </tr>
     <% @posts.each do |post| %>
       <tr>
-        <td><%= post.title %></td>
+       <% unless post.users.where(id: current_user.id).count>0 %>
+        <td><b><%= post.title %></td><b>
+       <% else %>
+       <td><%= post.title %></td>
+       <% end %> 
         <td><%= post.description %></td>
         <td><%= post.topic_id %></td>
         <td><%= post.topic.title %></td>
         <td><%= post.user.id%>
-        <td><%= link_to "show  ",topic_post_path(post.topic_id ,post) %></td>
+        <td><%= link_to "show  ",topic_post_path(post.topic_id ,post),format: :js,remote: true,:class => "edit" %></td>
         <td><center><%=post.ratings.average(:star)%></center></td>
         <td><%= post.comments.all.count %></td>
       <% if can? :edit,post%> <td><%= link_to "Edit",edit_topic_post_path(post.topic_id,post) %></td><% end %>
@@ -34,4 +38,13 @@
   <br>
   <%= link_to "back", :back %>
   <%= link_to "Topic", topics_path %>
+
+<%# window.onload = function () {
+ 
+ 
+ $(document).ready(function() {
+  console.log("success");
+});
+}; %>
 </center>
+

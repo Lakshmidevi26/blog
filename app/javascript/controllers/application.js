@@ -1,4 +1,9 @@
 import { Application } from "@hotwired/stimulus"
+require('jquery')
+//= require jquery
+//= require jquery_ujs
+//= require turbolinks
+//= require_tree
 
 const application = Application.start()
 

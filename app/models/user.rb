@@ -6,6 +6,6 @@ class User < ApplicationRecord
   has_many :posts,dependent: :destroy
   has_many :comments,dependent: :destroy
 
-  has_and_belongs_to_many :posts
+  has_and_belongs_to_many :posts, join_table: "posts_users_read_status"
 
 end
