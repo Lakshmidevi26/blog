@@ -1,0 +1,7 @@
+<% if @post.save %>
+alert("Post created successfully");
+<% else %>
+
+alert("<%= j  @post.errors.full_messages.join("\n") %>");
+<% end %>
+

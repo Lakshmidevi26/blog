@@ -6,6 +6,9 @@ class PostsController < ApplicationController
   before_action :set_topic
   before_action :set_post,only:%i[show edit update destroy]
 
+  protect_from_forgery except: :index
+
+  skip_after_action :verify_same_origin_request
   
   def index
     #@posts=@topic.Post.all
@@ -40,6 +43,9 @@ class PostsController < ApplicationController
 
   def edit
     @tag=@post.tags.build
+    respond_to do |format|
+      format.js
+    end  
   end  
 
  def show
@@ -48,10 +54,10 @@ class PostsController < ApplicationController
  end 
 
   def create
-    post = @topic.posts.new(post_params)
-    post.user_id = current_user.id
-    post.save
-    create_posts_tags(post,params[:post][:tags])
+    @post = @topic.posts.new(post_params)
+    @post.user_id = current_user.id
+    @post.save
+    create_posts_tags(@post,params[:post][:tags])
    #post.image.attach(params[:image])
     # if post.save
     #   redirect_to '/topics'
@@ -60,12 +66,14 @@ class PostsController < ApplicationController
     # end
 
     respond_to do |format|
-      if post.save
+      if @post.save
         format.html { redirect_to '/topics', notice: "Post was successfully created." }
-        format.json { render :show, status: :created, location: @topic }
+        format.json { render :show, status: :created, location: @post }
+        format.js { render layout: false}
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @topic.errors, status: :unprocessable_entity }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.js { render layout: false}
       end
     end
   end

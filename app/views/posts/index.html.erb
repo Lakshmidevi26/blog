@@ -28,7 +28,7 @@
         <td><%= link_to "show  ",topic_post_path(post.topic_id ,post),format: :js,remote: true,:class => "edit" %></td>
         <td><center><%=post.ratings.average(:star)%></center></td>
         <td><%= post.comments.all.count %></td>
-      <% if can? :edit,post%> <td><%= link_to "Edit",edit_topic_post_path(post.topic_id,post) %></td><% end %>
+      <% if can? :edit,post%> <td><%= link_to "Edit",edit_topic_post_path(post.topic_id,post,format: :js) ,remote: true %></td><% end %>
       <% if can? :destroy,post%>  <td><%= button_to "delete",topic_post_path(post.topic_id,post),method: :delete %> </td><% end %>
       </tr>
     <% end %>
@@ -39,12 +39,5 @@
   <%= link_to "back", :back %>
   <%= link_to "Topic", topics_path %>
 
-<%# window.onload = function () {
- 
- 
- $(document).ready(function() {
-  console.log("success");
-});
-}; %>
 </center>
 

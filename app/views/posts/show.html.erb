@@ -1,4 +1,4 @@
-<center>
+<div id="show">
   <h3><u><i>Details of post <%= @post.id %></i></u></h3><br>
 Title:<%= @post.title %><br>
 Description:<%= @post.description %><br>
@@ -67,16 +67,11 @@ Comments count:<%= @post.comments.count %><br><br>
 <%= link_to "Add comment  ",new_topic_post_comment_path(@post.topic_id,@post) %>  |
 <%= link_to "Back" ,:back%>
 <%  if can? :destroy, @post%><%= button_to "destroy ",topic_post_path(@post.topic_id,@post),method: :delete %> <% end %>
-</center>
+</div>
 
-<script>
-window.onload = function() {
- $(document).ready(function() {
-    alert('jQuery is working fine!');
-  });
-} 
-</script>
 
+
+<% if @post.users.where(id: current_user.id).count == 0%>
 <script>
 window.onload = function() {
 $(document).ready(function(){
@@ -97,6 +92,7 @@ $(document).ready(function(){
 );
 }
 </script>
+<% end %>
 
 <%# <script>
  console.log("<%= current_user.id ")

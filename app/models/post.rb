@@ -1,5 +1,5 @@
 class Post < ApplicationRecord
-
+  validates :title, length: {maximum: 20}
   validates :topic_id, :title,presence: true
   #validate -->for custom validation
 
