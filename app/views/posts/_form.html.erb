@@ -1,6 +1,6 @@
 <center>
-
-<%= form_with(model: [@topic,@post], local: false ,:id =>"post_form")  do |form| %>
+<div id="indicator" ></div>
+<%= form_with(model: [@topic,@post], local: false ,:id =>"form")  do |form| %>
   <%= form.label "Enter title" %>
   <%= form.text_field :title %>
  <br>
@@ -23,3 +23,15 @@
 
 <% end %>
 </center>
+<script>
+window.onload = function() {
+$("#form").on("ajax:beforeSend",function(event){
+    console.log("request sending");
+    $("#indicator").append('<h6>loading</h6>');
+});
+$("#form").on ("ajax:complete", function(e){
+    console.log("completed");
+       $("#indicator").empty();
+});
+}
+</script>

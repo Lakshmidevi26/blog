@@ -2,6 +2,6 @@
 alert("Post created successfully");
 <% else %>
 
-alert("<%= j  @post.errors.full_messages.join("\n") %>");
+alert("<%= @post.errors.full_messages.join("\n") %>");
 <% end %>
 
