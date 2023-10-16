@@ -1,0 +1,14 @@
+<table>
+  <tr>
+    <th>User</th>
+    <th>Rating</th>
+  </tr>
+<% @comment.user_comment_ratings.each do |rating| %>
+ <tr>
+    <td><%= User.find(rating.user_id).email %></td>
+    <td><%= rating.rating %></td>
+ </tr>
+<% end %>
+</table>
+
+<%= link_to "back to post" ,:back%>

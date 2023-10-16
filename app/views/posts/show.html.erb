@@ -20,8 +20,19 @@ Comments count:<%= @post.comments.count %><br><br>
       <% @post.comments.each do |comment| %>
       <tr>
         <td><%= comment.text %></td>
-        
-        <% if can? :edit,comment%>  <td><%= link_to "edit",edit_post_comment_path(comment.post_id,comment) %></td>
+        <td> <%= form_with model:[@topic,@post,comment,UserCommentRating.new],method: :post do |f| %>
+                  <%= f.radio_button :rating,1 %> 1
+                  <%= f.radio_button :rating,2%> 2
+                  <%= f.radio_button :rating,3 %> 3
+                  <%= f.radio_button :rating,4 %> 4
+                  <%= f.radio_button :rating,5 %> 5 <br>
+                  <%= f.submit "Add"%>
+  <% end %>
+</td>  
+       <td><%= link_to "show",topic_post_comment_path(@topic,@post,comment) %></td>
+        <% if can? :edit,comment%>  
+
+        <td><%= link_to "edit",edit_post_comment_path(comment.post_id,comment) %></td>
         <td><%= button_to "delete",post_comment_path(comment.post_id,comment),method: :delete,class: "btn btn-outline-primary" %></td> <% end %>
       </tr>
       <% end %>

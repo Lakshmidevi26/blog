@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :topics do
      resources :posts do
        resources :comments do
-        resources :commentsratings
+          resources :user_comment_ratings
        end
      end
      post "posts/:post_id/read/:user_id", to:'posts#read'

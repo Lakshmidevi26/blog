@@ -11,7 +11,6 @@ class CommentsController < ApplicationController
   end
 
   def show
-    @comment=@comment.commentsratings.all
   end
 
   def create
