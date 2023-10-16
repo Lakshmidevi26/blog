@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   get 'posts' ,to:"posts#index"
   resources :topics do
      resources :posts do
-       resources :comments
+       resources :comments do
+        resources :commentsratings
+       end
      end
      post "posts/:post_id/read/:user_id", to:'posts#read'
      patch "posts/:post_id/status/:user_id", to:'posts#status'

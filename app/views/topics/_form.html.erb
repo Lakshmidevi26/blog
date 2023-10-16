@@ -1,7 +1,7 @@
 <%= form_with(model: topic) do |form| %>
   <% if topic.errors.any? %>
     <div style="color: red">
-      <h2><%= pluralize(topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
+      <p><%= pluralize(topic.errors.count, "error") %> prohibited this topic from being saved:</p>
 
       <ul>
         <% topic.errors.each do |error| %>
@@ -10,6 +10,9 @@
       </ul>
     </div>
   <% end %>
+
+
+
 
   <div>
     <%= form.label :title, style: "display: block" %>

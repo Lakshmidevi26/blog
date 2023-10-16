@@ -20,7 +20,8 @@ Comments count:<%= @post.comments.count %><br><br>
       <% @post.comments.each do |comment| %>
       <tr>
         <td><%= comment.text %></td>
-      <% if can? :edit,comment%>  <td><%= link_to "edit",edit_post_comment_path(comment.post_id,comment) %></td>
+        
+        <% if can? :edit,comment%>  <td><%= link_to "edit",edit_post_comment_path(comment.post_id,comment) %></td>
         <td><%= button_to "delete",post_comment_path(comment.post_id,comment),method: :delete,class: "btn btn-outline-primary" %></td> <% end %>
       </tr>
       <% end %>

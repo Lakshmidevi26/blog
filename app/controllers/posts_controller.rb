@@ -30,22 +30,23 @@ class PostsController < ApplicationController
     unless params[:post][:star].nil?
     add_rating(@post,params[:post][:star])
     end
-
+    @url = topic_post_url(@topic, @post)
    # @post.image.attach(params[:image])
-
+   respond_to do |format|
     if @post.update(post_params)
-      topic=Topic.find(@post.topic_id)
-      redirect_to topic_post_path(topic.id,@post)
+      format.html { redirect_to topic_post_url(@topic, @post), notice: "post was successfully updated." }
+      format.json { render :show, status: :ok, location: @post }
+      format.js {  render js: "window.location='#{@url.to_s}'" }
     else
-      render :edit
+      format.html { render :edit, status: :unprocessable_entity }
+      format.json { render json: @post.errors, status: :unprocessable_entity }
     end
+  end
+
   end
 
   def edit
     @tag=@post.tags.build
-    respond_to do |format|
-      format.js
-    end  
   end  
 
  def show
