@@ -24,7 +24,7 @@
         <td><%= post.description %></td>
         <td><%= post.topic_id %></td>
         <td><%= post.topic.title %></td>
-        <td><%= post.user.id%>
+        <td><%= post.user_id%>
         <td><%= link_to "show  ",topic_post_path(post.topic_id ,post)%></td>
         <td><center><%=post.ratings.average(:star)%></center></td>
         <td><%= post.comments.all.count %></td>

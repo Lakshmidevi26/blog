@@ -85,3 +85,5 @@ gem "cancancan"
 gem "kaminari"
 
 gem "devise"
+
+gem "bullet",group: 'development'

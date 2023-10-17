@@ -13,7 +13,7 @@ class PostsController < ApplicationController
   def index
     #@posts=@topic.Post.all
     if params[:topic_id].nil?
-      @posts=Post.all.page(params[:page])
+      @posts=Post.includes(:topic).all.page(params[:page])
     else
       @posts=@topic.posts.all.page(params[:page])
     end
