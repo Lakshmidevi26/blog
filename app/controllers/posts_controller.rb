@@ -11,20 +11,14 @@ class PostsController < ApplicationController
   skip_after_action :verify_same_origin_request
   
   def index
+    from = params[:post].nil? ? Date.yesterday(): params[:post][:from]
+    to = params[:post].nil? ? Date.today(): params[:post][:to]
 
     if params[:topic_id].nil?
-      if params[:post].nil?
-       from = Date.yesterday() 
-       to = Date.today()
-       @posts=Post.listed(from,to).includes(:topic).page(params[:page])
-      #  to = DateTime.now() 
-      else
-      @posts=Post.listed(params[:post][:from],params[:post][:to]).includes(:topic).page(params[:page])
-      end
-      
-    
+      @posts=Post.listed(from,to).includes(:topic).page(params[:page])  
     else
       @posts=@topic.posts.all.page(params[:page])
+     
     end
 
   end
