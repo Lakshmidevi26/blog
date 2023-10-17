@@ -25,4 +25,8 @@ class Post < ApplicationRecord
     self.description = "demo" if description.nil?
   end
 
+  scope :listed, ->(from,to) {
+
+   where("created_at >= ? AND created_at <= ? ", from,to.to_date + 1.day) }
+
 end

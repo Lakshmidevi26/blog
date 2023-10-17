@@ -1,6 +1,17 @@
 <center>
 <p class="alert"><%= notice %></p>
   <h3><u><i>Index page - posts </i></u></h3>
+
+   <%= form_with model:[Post.new],method: :get do |form| %>
+   <%= form.label "From"%>
+   <%= form.date_field :from %>
+   <%= form.label "To"%>
+   <%= form.date_field  :to %>
+   <%= form.submit "show" %>
+   <% end %>
+
+<br>
+
   <table>
     <tr>
       <th>Title</th>

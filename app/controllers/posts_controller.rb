@@ -11,9 +11,18 @@ class PostsController < ApplicationController
   skip_after_action :verify_same_origin_request
   
   def index
-    #@posts=@topic.Post.all
+
     if params[:topic_id].nil?
-      @posts=Post.includes(:topic).all.page(params[:page])
+      if params[:post].nil?
+       from = Date.yesterday() 
+       to = Date.today()
+       @posts=Post.listed(from,to).includes(:topic).page(params[:page])
+      #  to = DateTime.now() 
+      else
+      @posts=Post.listed(params[:post][:from],params[:post][:to]).includes(:topic).page(params[:page])
+      end
+      
+    
     else
       @posts=@topic.posts.all.page(params[:page])
     end
@@ -147,6 +156,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title,:description,:image,:topic_id,tags_attributes:[:name,:id],ratings_attributes:[:post_id,:star])
+    params.require(:post).permit(:title,:from,:to,:description,:image,:topic_id,tags_attributes:[:name,:id],ratings_attributes:[:post_id,:star])
   end
 end
