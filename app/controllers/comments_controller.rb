@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   before_action :set_post
   before_action :set_comment ,only: %i[show edit update destroy]
-
+  
   def index
     @comments=@post.comments.all
   end
@@ -14,13 +14,14 @@ class CommentsController < ApplicationController
   end
 
   def create
-    comment=@post.comments.new(comment_params)
-    comment.user_id=current_user.id
-    if comment.save
+    @comment=@post.comments.new(comment_params)
+    @comment.user_id = current_user.id
+    if @comment.save
       redirect_to '/posts'
     else
       render :new
     end
+
   end
 
   def update

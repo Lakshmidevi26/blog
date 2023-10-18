@@ -60,7 +60,6 @@ class PostsController < ApplicationController
   def create
     @post = @topic.posts.new(post_params)
     @post.user_id = current_user.id
-    @post.save
     create_posts_tags(@post,params[:post][:tags])
    #post.image.attach(params[:image])
     # if post.save
