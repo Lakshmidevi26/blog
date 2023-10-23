@@ -87,3 +87,5 @@ gem "kaminari"
 gem "devise"
 
 gem "bullet",group: 'development'
+
+gem "letter_opener",group: "development"
