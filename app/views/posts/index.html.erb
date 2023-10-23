@@ -1,7 +1,6 @@
 <center>
 <p class="alert"><%= notice %></p>
-  <h3><u><i>Index page - posts </i></u></h3>
-
+<% if params[:topic_id].nil? %>
    <%= form_with model:[Post.new],method: :get do |form| %>
    <%= form.label "From"%>
    <%= form.date_field :from %>
@@ -9,10 +8,10 @@
    <%= form.date_field  :to %>
    <%= form.submit "show" %>
    <% end %>
-
+<% end %>
 <br>
-
-  <table>
+ <div class="table-responsive">
+  <table class="table table-hover" style="width:70%">
     <tr>
       <th>Title</th>
       <th>Description</th>
@@ -22,8 +21,7 @@
       <th>View</th>
       <th>Avg Rating</th>
       <th>Comments count</th>
-      <%# <th>Edit</th>
-      <th>delete</th> %>
+      <th colspan="2">
     </tr>
     <% @posts.each do |post| %>
       <tr>
@@ -44,6 +42,7 @@
       </tr>
     <% end %>
   </table>
+  </div>
   <br>
   <div style="width: 15em"><%= paginate @posts %></div>
   <br>

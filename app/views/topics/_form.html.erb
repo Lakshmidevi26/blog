@@ -11,12 +11,18 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+  <div class="container">
+    <div class="row" style="margin:10px">
+      <div class="col-md-4">
+         <%= form.label :title, style: "display: block", class:"form-label" %>
+         <%= form.text_field :title,class:"form-control" %>
+      </div> 
+    </div>  
+    <div class="row" style="margin:10px">
+      <div class="col-md-4">
+        <%= form.submit "create"%>
+      </div>  
+    </div> 
+    </div>
+  
 <% end %>

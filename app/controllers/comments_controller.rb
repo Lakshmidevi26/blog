@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+  before_action :set_topic
   before_action :set_post
   before_action :set_comment ,only: %i[show edit update destroy]
   
@@ -17,7 +18,7 @@ class CommentsController < ApplicationController
     @comment=@post.comments.new(comment_params)
     @comment.user_id = current_user.id
     if @comment.save
-      redirect_to '/posts'
+      redirect_to topic_post_url(@topic,@post)
     else
       render :new
     end
@@ -26,7 +27,7 @@ class CommentsController < ApplicationController
 
   def update
     if @comment.update(comment_params)
-      redirect_to '/posts'
+      redirect_to topic_post_url(@topic,@post)
     else
       render :edit
     end
@@ -34,20 +35,26 @@ class CommentsController < ApplicationController
 
   def destroy
      @comment.destroy!
-     redirect_to '/posts'
+     redirect_to topic_post_url(@topic,@post)
   end
 
 
   private
 
+  def set_topic
+    @topic =Topic.find(params[:topic_id])
+  end
+  
   def set_post
     @post=Post.find(params[:post_id])
-  end
-  def comment_params
-    params.require(:comment).permit(:text,:post_id)
   end
 
   def set_comment
     @comment=Comment.find(params[:id])
   end
+
+  def comment_params
+    params.require(:comment).permit(:text,:post_id)
+  end
+
 end

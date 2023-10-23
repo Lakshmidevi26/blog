@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :posts,dependent: :destroy
   has_many :comments,dependent: :destroy
 
+  has_many :ratings ,dependent: :destroy
+
   has_many :user_comment_ratings
   has_many :comments,through: :user_comment_ratings
 

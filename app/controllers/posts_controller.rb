@@ -1,11 +1,10 @@
 class PostsController < ApplicationController
-  respond_to :html, :json, :js
   load_and_authorize_resource
   protect_from_forgery with: :null_session
 
   before_action :set_topic
   before_action :set_post,only:%i[show edit update destroy]
-
+  before_action :set_comment, only:%i[ show ]
   protect_from_forgery except: :index
 
   skip_after_action :verify_same_origin_request
@@ -147,6 +146,11 @@ class PostsController < ApplicationController
     @topic=Topic.find(params[:topic_id])
     end
   end
+
+  def set_comment
+    @comments = @post.comments.all
+    @comment = Comment.new
+  end  
 
   def post_params
     params.require(:post).permit(:title,:from,:to,:description,:image,:topic_id,tags_attributes:[:name,:id],ratings_attributes:[:post_id,:star])

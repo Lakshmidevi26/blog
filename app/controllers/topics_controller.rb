@@ -49,11 +49,20 @@ class TopicsController < ApplicationController
 
   # DELETE /topics/1 or /topics/1.json
   def destroy
-    @topic.destroy
+    
+    if @topic.destroy!
 
-    respond_to do |format|
-      format.html { redirect_to topics_url, notice: "Topic was successfully destroyed." }
-      format.json { head :no_content }
+       respond_to do |format|
+         format.html { redirect_to topics_url, notice: "Topic was successfully destroyed." }
+        format.json { head :no_content }
+      end  
+   else
+       respond_to do |format|
+       puts "start"  
+       puts "End"
+       format.html { redirect_to topics_url, notice: "Topic not destroyed." }
+       format.json { head :no_content } 
+       end    
     end
   end
 

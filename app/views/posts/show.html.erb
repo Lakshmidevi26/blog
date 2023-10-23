@@ -11,13 +11,13 @@ Topic ID:<%= @post.topic_id %><br>
   </div>
 
 Comments count:<%= @post.comments.count %><br><br>
-<% if (@post.comments.count) >0 %>
+<% if (@comments.count) >0 %>
     <h3><u><i>Listing comments</i></u></h3><br>
     <table>
       <tr>
         <th>comments</th>
       </tr>
-      <% @post.comments.each do |comment| %>
+      <% @comments.each do |comment| %>
       <tr>
         <td><%= comment.text %></td>
         <td> <%= form_with model:[@topic,@post,comment,UserCommentRating.new],method: :post do |f| %>
@@ -32,8 +32,8 @@ Comments count:<%= @post.comments.count %><br><br>
        <td><%= link_to "show",topic_post_comment_path(@topic,@post,comment) %></td>
         <% if can? :edit,comment%>  
 
-        <td><%= link_to "edit",edit_post_comment_path(comment.post_id,comment) %></td>
-        <td><%= button_to "delete",post_comment_path(comment.post_id,comment),method: :delete,class: "btn btn-outline-primary" %></td> <% end %>
+        <td><%= link_to "edit",edit_topic_post_comment_path(@topic,@post,comment) %></td>
+        <td><%= button_to "delete",topic_post_comment_path(@topic,@post,comment),method: :delete,class: "btn btn-outline-primary" %></td> <% end %>
       </tr>
       <% end %>
     </table>
@@ -74,9 +74,10 @@ Comments count:<%= @post.comments.count %><br><br>
     <%= f.radio_button :star,5 %> 5 <br>
     <%= f.submit %>
   <% end %>
-
+<br>
+<%= render 'comments/form', comment:@comment%>
 <% if can? :update, @post %><%= link_to "edit  " ,edit_topic_post_path(@post.topic_id,@post)%>  | <% end %>
-<%= link_to "Add comment  ",new_topic_post_comment_path(@post.topic_id,@post) %>  |
+<%# <%= link_to "Add comment  ",new_topic_post_comment_path(@post.topic_id,@post) %>  
 <%= link_to "Back" ,:back%>
 <%  if can? :destroy, @post%><%= button_to "destroy ",topic_post_path(@post.topic_id,@post),method: :delete %> <% end %>
 </div>

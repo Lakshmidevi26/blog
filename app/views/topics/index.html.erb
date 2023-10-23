@@ -1,23 +1,28 @@
+<center>
+
 <p style="color: green"><%= notice %></p>
 
-<h1><u><i>Topics</i></u></h1>
 
 <div id="topics">
-  <% if @topics.count>0 %>
-    <table>
+  <% if @topics.count>0 %> 
+ <div class="table-responsive">
+    <table class="table table-hover" style="width:50%">
       <tr>
         <th>Title</th>
-        <th>ID</th>
+        <th>Posts</th>
         <th>View</th>
+        <th>Delete</th>
       </tr>
       <% @topics.each do |topic| %>
       <tr>
         <td><%= topic.title %></td>
-        <td><%= topic.id %></td>
-        <td><%= link_to "show", topic %></td>
+        <td><%= topic.posts.count %></td>
+        <td><%= link_to "show", topic ,class:"btn btn-sm",style:"background-color:#9ec5fe"%></td>
+        <td><%= button_to "Delete", topic,method: :delete %></td>
       </tr>
       <% end %>
     </table>
+   </div>
     <br>
     <div style="width: 15em"><%= paginate @topics %></div>
     <br>
@@ -30,3 +35,5 @@
 <br>
 
 <%# <%= button_to "sign out", destroy_user_session_path,method: :delete%> 
+
+</center>
