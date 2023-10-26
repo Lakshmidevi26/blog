@@ -1,6 +1,6 @@
 <center>
 <div id="indicator" ></div>
-<%= form_with(model: [@topic,@post], local: false ,:id =>"form")  do |form| %>
+<%= form_with(model: [@topic,@post], local: false )  do |form| %>
   <%= form.label "Enter title" %>
   <%= form.text_field :title %>
  <br>

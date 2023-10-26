@@ -10,14 +10,14 @@ class PostsController < ApplicationController
   skip_after_action :verify_same_origin_request
   
   def index
-    from = params[:post].nil? ? Date.yesterday(): params[:post][:from]
-    to = params[:post].nil? ? Date.today(): params[:post][:to]
 
     if params[:topic_id].nil?
+      from = params[:from].nil? ? Date.yesterday(): params[:from]
+      to = params[:to].nil? ? Date.today(): params[:to]
+  
       @posts=Post.listed(from,to).includes(:topic).page(params[:page])  
-    else
-      @posts=@topic.posts.all.page(params[:page])
-     
+    else 
+      @posts=@topic.posts.all.page(params[:page]) 
     end
 
   end
@@ -26,14 +26,13 @@ class PostsController < ApplicationController
     @post=@topic.posts.build
     @tag=@post.tags.build
   end
-  def update
-    create_posts_tags(@post,params[:post][:tags])
 
+  def update
     unless params[:post][:star].nil?
-    add_rating(@post,params[:post][:star])
+        add_rating(@post,params[:post][:star])
     end
     @url = topic_post_url(@topic, @post)
-   # @post.image.attach(params[:image])
+   
    respond_to do |format|
     if @post.update(post_params)
       format.html { redirect_to topic_post_url(@topic, @post), notice: "post was successfully updated." }
@@ -48,7 +47,7 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @tag=@post.tags.build
+    @post.tags.build
   end  
 
  def show
@@ -59,19 +58,13 @@ class PostsController < ApplicationController
   def create
     @post = @topic.posts.new(post_params)
     @post.user_id = current_user.id
-    create_posts_tags(@post,params[:post][:tags])
-   #post.image.attach(params[:image])
-    # if post.save
-    #   redirect_to '/topics'
-    # else
-    #   render :new
-    # end
+    # create_posts_tags(@post,params[:post][:tags])
 
     respond_to do |format|
       if @post.save
         format.html { redirect_to '/topics', notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
-        format.js { render layout: false}
+        format.js { render layout: false }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @post.errors, status: :unprocessable_entity }
@@ -114,20 +107,6 @@ class PostsController < ApplicationController
 
   private
 
-  def create_posts_tags(post,tags)
-    #tags=tags.strip.split(',')
-    unless tags.nil?
-    tags.each do |tag|
-      if !(Tag.find_by(name: tag))
-      post.tags << Tag.create(name: tag)
-      elsif !(post.tags.find_by(name: tag))
-        post.tags << Tag.find_by(name: tag)
-      end
-    end  
-    end
-  end  
-
-
   def add_rating(post,value)
       if Rating.find_by(user_id: current_user.id)
       Rating.find_by(user_id: current_user.id).update(star: value)
@@ -153,6 +132,6 @@ class PostsController < ApplicationController
   end  
 
   def post_params
-    params.require(:post).permit(:title,:from,:to,:description,:image,:topic_id,tags_attributes:[:name,:id],ratings_attributes:[:post_id,:star])
+    params.require(:post).permit(:title,:from,:to,:description,:image,:topic_id,tag_ids:[],tags_attributes:[:name,:id],ratings_attributes:[:post_id,:star])
   end
 end

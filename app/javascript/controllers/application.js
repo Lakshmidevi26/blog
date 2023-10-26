@@ -1,6 +1,7 @@
 import { Application } from "@hotwired/stimulus"
 require('jquery')
 //= require jquery
+//= require popper
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree

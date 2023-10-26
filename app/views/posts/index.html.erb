@@ -1,15 +1,17 @@
 <center>
 <p class="alert"><%= notice %></p>
 <% if params[:topic_id].nil? %>
-   <%= form_with model:[Post.new],method: :get do |form| %>
+   <%= form_with method: :get do |form| %>
    <%= form.label "From"%>
    <%= form.date_field :from %>
    <%= form.label "To"%>
    <%= form.date_field  :to %>
    <%= form.submit "show" %>
-   <% end %>
-<% end %>
+   <% end %> 
+<% end %>   
+
 <br>
+
  <div class="table-responsive">
   <table class="table table-hover" style="width:70%">
     <tr>

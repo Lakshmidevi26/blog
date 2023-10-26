@@ -20,10 +20,14 @@ class User::RegistrationsController < Devise::RegistrationsController
 
   end
 
-  # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  #GET /resource/edit
+  def edit
+    super
+    respond_to do |format|
+      format.html
+      format.js
+    end  
+  end
 
   # PUT /resource
   # def update

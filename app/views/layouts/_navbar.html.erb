@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg bg-dark" style="height:75px;color:white">
+    <div class="container">
+        <div class="navbar-header navbar-brand" style="color:red;font-family:serif;font-size:50px">Blog</div>
+    </div>
+      
+    <% unless current_user.nil?%>
+         Signed as <%= current_user.email %>
+         <%= link_to '<i class="bi bi-person-fill fs-3"></i>'.html_safe, edit_user_registration_path, {:remote => true, 'data-toggle' => "modal","data-target" => "#modal-window"} %>
+
+        <%= link_to '<i class="bi bi-box-arrow-right fs-3"></i>'.html_safe, destroy_user_session_path, method: :delete,style:"margin:50px" %>
+
+    <% else %> 
+        <div class="btn-group" style="margin:20px">
+          <%= button_to "Log in",new_user_session_path , class:"btn btn-outline-primary"%>
+          <%= button_to "Sign in",new_user_registration_path,method: :get, class:"btn btn-outline-primary" %>
+        </div>   
+    <% end %>
+</nav>
+
+
+          <div id="modal-window" class="modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden = "true">
+            <div class="modal-dialog" role="document">
+             <div class="modal-content">
+             </div>
+            </div>
+          </div>
