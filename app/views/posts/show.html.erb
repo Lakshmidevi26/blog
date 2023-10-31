@@ -1,87 +1,103 @@
 <div id="show">
-  <h3><u><i>Details of post <%= @post.id %></i></u></h3><br>
-Title:<%= @post.title %><br>
-Description:<%= @post.description %><br>
-Topic ID:<%= @post.topic_id %><br>
-
-  <div>
-     <% if @post.image.attached? %>
-    <%= image_tag(@post.image,style:"width: 200px;") %>
-      <% end %>
+<div class="card" style="width: 100%;outline: 3px solid black;margin-left:5%">
+  <div class="row">
+    <div class="col-md-11">
+    <%= link_to '<i class="bi bi-chevron-left fs-3"></i>'.html_safe,:back,style:"color:black" %>
+    </div>
+    <% if can? :update, @post %>
+    <div  class="col-md-1 float-right">     
+        <%= link_to '<i class="bi bi-pencil-square fs-2"></i>'.html_safe ,edit_topic_post_path(@post.topic_id,@post),style:"color:black"%>
+        <%= link_to '<i class="bi bi-trash fs-2"></i>'.html_safe,topic_post_path(@post.topic_id,@post),method: :delete ,style:"color:black"%>
+    </div>
+    <% end %>
   </div>
 
-Comments count:<%= @post.comments.count %><br><br>
-<% if (@comments.count) >0 %>
-    <h3><u><i>Listing comments</i></u></h3><br>
+
+  <div class="card-body">
+    <h5 class="card-title"><center style="color:red;font-weight:bold;font-size:30px;text-transform:capitalize"><%= @post.title %>(<%= @post.topic.title %>)</center></h5>
+    
+    <div>
+    <% if @post.image.attached? %>
+        <%= image_tag(@post.image,class:"rounded mx-auto d-block") %>
+    <% end %>
+    </div>
+
+    <h6>Description</h6>
+    <p class="card-text"><%= @post.description %></p>
+
+    <div style="color:blue">
+    <% if @post.tags.count > 0 %>
+         <% @post.tags.each do |tag| %>
+              #<%= tag.name%>
+         <% end %>
+    <% end %>
+    </div> <br>
+
+   <div class="bi bi-chat-dots-fill fs-5">
+     <%= @post.comments.count%>
+   </div>
+
+ 
+    <% if (@comments.count) >0 %>
     <table>
-      <tr>
-        <th>comments</th>
-      </tr>
       <% @comments.each do |comment| %>
       <tr>
         <td><%= comment.text %></td>
         <td> <%= form_with model:[@topic,@post,comment,UserCommentRating.new],method: :post do |f| %>
-                  <%= f.radio_button :rating,1 %> 1
-                  <%= f.radio_button :rating,2%> 2
-                  <%= f.radio_button :rating,3 %> 3
-                  <%= f.radio_button :rating,4 %> 4
-                  <%= f.radio_button :rating,5 %> 5 <br>
-                  <%= f.submit "Add"%>
-  <% end %>
-</td>  
-       <td><%= link_to "show",topic_post_comment_path(@topic,@post,comment) %></td>
+                  <%= f.radio_button :rating,1 %> 1⭐
+                  <%= f.radio_button :rating,2%> 2⭐
+                  <%= f.radio_button :rating,3 %> 3⭐
+                  <%= f.radio_button :rating,4 %> 4⭐
+                  <%= f.radio_button :rating,5 %> 5⭐
+                  <%= f.submit "Add" %>
+             <% end %>
+        </td>  
+        <td><%= link_to '<i class="bi bi-heart-fill fs-5"></i>'.html_safe, topic_post_comment_path(@topic,@post,comment) ,style:"color:red"%><%= comment.user_comment_ratings.count %></td>
         <% if can? :edit,comment%>  
-
-        <td><%= link_to "edit",edit_topic_post_comment_path(@topic,@post,comment) %></td>
-        <td><%= button_to "delete",topic_post_comment_path(@topic,@post,comment),method: :delete,class: "btn btn-outline-primary" %></td> <% end %>
+        <td><%= link_to '<i class="bi bi-pencil-square fs-5"></i>'.html_safe,edit_topic_post_comment_path(@topic,@post,comment),style:"color:black" %></td>
+        <td><%= link_to '<i class="bi bi-trash fs-5"></i>'.html_safe,topic_post_comment_path(@topic,@post,comment),method: :delete,style:"color:black" %></td>
+        <% end %> 
       </tr>
       <% end %>
     </table>
-<% else %>
-      NO comments
-<% end %>
-<br>
-<% if @post.tags.count > 0 %>
- <h4><strong>Tags</strong></h4>
-  <% @post.tags.each do |tag| %>
-    <%= tag.name%>
-  <% end %>
-<% end %>    
-<br><br>
+    <% end %>
+    <br>
+
+  <%= render 'comments/form', comment:@comment%>
+  <br>
+
   <% if Rating.find_by(post_id: @post.id) %>
-   <strong>Rating :</strong>
-   <% arr = Rating.where(post_id:@post.id).group(:star).count%>
+  <strong>user rating😍</strong><br>
+  <% arr = Rating.where(post_id:@post.id).group(:star).count%>
   <% for a in 1..5 do %>
   <% if arr[a].nil?%>
   <% arr[a]=0%>
   <% end %>
   <% end %>
-  <table><tr><th>5 star</th><th>4 star</th><th>3 star</th><th>2 star</th><th>1 star</th></tr><tr>
-  <td>  <%= arr[5]%></td>
-  <td><%= arr[4]%></td>
-  <td><%= arr[3]%></td>
-   <td><%= arr[2]%></td>
-   <td><%= arr[1]%></td></tr></table>
+  
+  <%= arr[5]%> 🌟🌟🌟🌟🌟<br>
+  <%= arr[4]%> 🌟🌟🌟🌟<br>
+  <%= arr[3]%> 🌟🌟🌟<br>
+  <%= arr[2]%> 🌟🌟<br>
+  <%= arr[1]%> 🌟<br>
   <% end %>
+
   <br>
-  <h4>Rating for post</h4>
+  <strong>Add your rating✌️</strong>
   
   <%= form_with model:[@post,Rating.new],method: :post do |f| %>
-  <%= f.radio_button :star,1 %> 1
-    <%= f.radio_button :star,2%> 2
-    <%= f.radio_button :star,3 %> 3
-    <%= f.radio_button :star,4 %> 4
-    <%= f.radio_button :star,5 %> 5 <br>
-    <%= f.submit %>
+  <%= f.radio_button :star,1 %> 1⭐
+    <%= f.radio_button :star,2%> 2⭐
+    <%= f.radio_button :star,3 %> 3⭐
+    <%= f.radio_button :star,4 %> 4⭐
+    <%= f.radio_button :star,5 %> 5⭐
+    <%= f.submit "add"%>
   <% end %>
-<br>
-<%= render 'comments/form', comment:@comment%>
-<% if can? :update, @post %><%= link_to "edit  " ,edit_topic_post_path(@post.topic_id,@post)%>  | <% end %>
-<%# <%= link_to "Add comment  ",new_topic_post_comment_path(@post.topic_id,@post) %>  
-<%= link_to "Back" ,:back%>
-<%  if can? :destroy, @post%><%= button_to "destroy ",topic_post_path(@post.topic_id,@post),method: :delete %> <% end %>
-</div>
 
+</div>
+</div>
+</div>
+<br>
 
 
 <% if @post.users.where(id: current_user.id).count == 0%>

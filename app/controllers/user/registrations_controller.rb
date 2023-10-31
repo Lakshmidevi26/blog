@@ -11,7 +11,6 @@ class User::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    puts "Hello"
     super do |user|
        if user.persisted?
         UserMailer.sign_up_mail(user).deliver_later

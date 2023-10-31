@@ -13,12 +13,24 @@
     </div>
 
   <br>
-  <% Tag.all.each do |tag| %>
-    <%= form.check_box :tags, { multiple: true,}, tag.name, nil %>
-    <%= form.label tag.name %>
-  <% end %>  
-  <br>
-  <%= link_to "add a tag" ,new_tag_path %>
+
+  <div class="field">
+    <%= form.label "select tags" %><br/>
+    <%= form.select :tag_ids, Tag.all.collect { |u| [u.name, u.id] }, {  }, multiple: true, :class => "form-control form-control-md col-6" %>
+  </div>
+  
+
+  <div class="field all_tag_field">
+    <label>New hashtag</label>
+    <%= form.fields_for :tags do |ff| %>
+      <div>
+        <div class="tag_field">
+          <%= render "tag_form", ff: ff %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
   <%= form.submit%>
 
 <% end %>

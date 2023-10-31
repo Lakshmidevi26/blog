@@ -16,7 +16,7 @@ class Post < ApplicationRecord
 
   has_many :ratings ,dependent: :destroy
 
-  accepts_nested_attributes_for :tags, allow_destroy: true
+  accepts_nested_attributes_for :tags, reject_if: ->(tag) { tag['name'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :ratings
 
   has_one_attached :image ,dependent: :destroy

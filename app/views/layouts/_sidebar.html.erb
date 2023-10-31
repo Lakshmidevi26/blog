@@ -3,18 +3,17 @@
         <div class="row flex-nowrap">
          <div class="bg-dark col-auto col-md-2 min-vh-100">
             <div class="bg-dark">
-              <a class="d-flex text-decoration-none align-items-center">
-                <span class="fs-4 d-none d-sm-inline">Sidemenu</span>
-              </a>
               <ul class="nav nav-pills flex-column">
                 <li class="nav-items"><%= link_to "Topics", topics_path %></li>
               </ul>
             </div>
          </div>
-         <div class="col-md-10">
+         <div class="col-md-6">
           <p class="alert"><%= alert %></p>
           <div class=""><%= yield %></div>
          </div>
+          
+          
         </div>
-      </div>
- </div>     
+    </div>
+</div>     

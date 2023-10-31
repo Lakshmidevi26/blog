@@ -11,6 +11,7 @@ class PostsController < ApplicationController
   
   def index
 
+   
     if params[:topic_id].nil?
       from = params[:from].nil? ? Date.yesterday(): params[:from]
       to = params[:to].nil? ? Date.today(): params[:to]
@@ -62,7 +63,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to '/topics', notice: "Post was successfully created." }
+        format.html { redirect_to topic_post_url(@topic, @post), notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
         format.js { render layout: false }
       else
@@ -132,6 +133,6 @@ class PostsController < ApplicationController
   end  
 
   def post_params
-    params.require(:post).permit(:title,:from,:to,:description,:image,:topic_id,tag_ids:[],tags_attributes:[:name,:id],ratings_attributes:[:post_id,:star])
+    params.require(:post).permit(:title,:from,:to,:description,:image,:topic_id,tag_ids: [],tags_attributes: [:id, :name, :_destroy],ratings_attributes: [:post_id,:star])
   end
 end
